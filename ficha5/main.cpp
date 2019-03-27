@@ -101,6 +101,7 @@ class Programa{
     private:
         int input[255];
         char chin[255];
+        
         Exercicios exercicio;
         Menu menu;
 
