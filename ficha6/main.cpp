@@ -3,6 +3,17 @@
 
 using namespace std;
 
+class Menu{
+    public:
+        void principal(){
+            cout << "1 - Exercicio_1\n2 - Exercicio_2\n3 - Exercicio_3\n4 - Exercicio_4\n5 - Exercicio_5\n6 - Exercicio_6\n7 - Exercicio_7\n8 - Exercicio_8\n\n9 - Sair\n\nOpcao> ";
+        }
+
+        void menu_ex7(){
+            cout << "Menu de opcoes:\n1 - Executar o programa Calculadora\n2 - Converter graus centigrados/fahrenheit\n3 - Converter metros/quilometros\n4 - sair\n\nOpcao> ";
+        }
+};
+
 class Exercicio{
     private:
         int arr[255];
@@ -11,30 +22,31 @@ class Exercicio{
     public:
 
         int * ex1(int x){
-            for(size_t j=x;j<=15;j++){
-                arr[j]+=j;
+            for(size_t i=x;i<=15;i++){
+                arr[i]=i;
             }
             return arr;
-        }//...
+        }
 
         int * ex2(int x,int y){
-            do{
-                arr[0]=x*y;
-                return arr;
-            } while (arr[0] > 10 && arr[0] < 1000);
+            arr[1]=x*y;
+            if (arr[1] < 10 || arr[1] > 1000) {
+                arr[0]=0;
+            }else{
+                arr[0]=1;
+            }
+            return arr;
         }
 
         int * ex3(char *x){
-            while(1){
-                if(strcmp(x,password)!=0){
-                    arr[0]=false;
-                    arr[1]=strlen(password);
-                    arr[2]=password[0];
-                    return arr;
-                }else{
-                    arr[0]=true;
-                }
+            if(strcmp(x,password)==0){
+                arr[0]=0;
+            }else{
+                arr[0]=1;
+                arr[1]=strlen(password);
+                arr[2]=password[0];
             }
+            return arr;
         }
 
         int * ex4(int *x){
@@ -44,17 +56,28 @@ class Exercicio{
             return arr;
         }
 
-        int * ex6(int x[]){
-            for(size_t i=0;i<sizeof(*x);i++){
-                arr[1]+=x[i];
-            }
-            if (arr[1] >= 500) {
-                arr[2]=arr[1]/sizeof(arr);
-                arr[0]=0;
-            }else{
-                arr[0]=1;
-            }
+        int * ex6(int x,int i){
+            arr[0]=x/i;
             return arr;
+        }
+
+        void ex7(int x){
+            switch(x){
+                case 1:
+                    cout << "Calculadora: a executar..." << endl;
+                    break;
+                case 2:
+                    cout << "Conversao de temperaturas" << endl;
+                    break;
+                case 3:
+                    cout << "Conversao de distancias" << endl;
+                    break;
+                case 4:
+                    cout << "A terminar o programa..." << endl;
+                    break;
+                default:
+                    break;
+            }
         }
 
 };
@@ -64,25 +87,60 @@ class Programa{
         int input[255];
         char chrin[255];
 
+        Menu menu;
         Exercicio exercicios;
 
     public:
         int *esp;
+        int soma=0;
+        int i=1;
 
         void run(){
             cin >> input[0];
 
             switch (input[0]){
                 case 1:
-                    //Ex1
+                    cout << "Isira um numero entre 1 e 15: "; cin >> input[0];
+                    if (input[0]>15 || input[0]<=0) {
+                        cout << "Entre 1 e 15" << endl;
+                    }else{
+                        esp=exercicios.ex1(input[0]);
+                        for(size_t i=input[0];i<=15;i++){
+                            cout << "n = " << *(esp+i) << endl;
+                        }
+                        system("PAUSE");
+                    }
                     break;
                 
                 case 2:
-                    //Ex2
+                    while(true){
+                        cout << "Digite um numero inteiro: "; cin >> input[0];
+                        cout << "Digite um outro numero inteiro: "; cin >> input[1];
+                        esp=exercicios.ex2(input[0],input[1]);
+                        if (*(esp+0) == 1) {
+                            cout << input[0] << "+" << input[1] << "=" << *(esp+1) << endl;
+                            system("PAUSE");
+                            system("CLS");
+                        }else{
+                            cout << *(esp+0) << " " << *(esp+1) << endl;
+                            system("PAUSE");
+                            break;
+                        }
+                    }
                     break;
 
                 case 3:
-                    //Ex3
+                    cout << "Introduza a palavra-passe> "; cin >> chrin;
+                    esp=exercicios.ex3(chrin);
+                    if (*(esp+0)==0) {
+                        cout << "Palavra-passe Correta" << endl;
+                        system("PAUSE");
+                    }else{
+                        cout << "Palavra-passe Incorreta\nPrimerira letra da palavra-passe: " << char(*(esp+2)) << "\nTamanho da palavra-passe: " << *(esp+1) << endl;
+                        system("PAUSE");
+                    }
+                    
+                    
                     break;
 
                 case 4:
@@ -102,23 +160,32 @@ class Programa{
                     break;
 
                 case 6:
-                    while(1){
-                        int i=0;
+                    while(true){
                         cout << "Introduza um numero: "; cin >> input[i];
-                        esp=exercicios.ex6(input);
-                        if (*(esp+0) == 0) {
-                            cout << "Media do Valores: " << *(esp+0) << " " << *(esp+1) << " " << *(esp+2) << endl;
+                        soma+=input[i];
+                        if (soma >= 500) {
+                            esp=exercicios.ex6(soma,i);
+                            cout << "A media dos valores: " << *(esp+0) << endl;
                             system("PAUSE");
                             break;
                         }else{
                             i++;
-                        }
-                          
+                        }   
                     }
                     break;
 
                 case 7:
-                    //Ex7
+                    while(true){
+                        menu.menu_ex7();
+                        cin >> input[0];
+                        system("CLS");
+                        exercicios.ex7(input[0]);
+                        system("PAUSE");
+                        if (input[0]==4) {
+                            break;
+                        }
+                        system("CLS");
+                    }
                     break;
 
                 case 8:
