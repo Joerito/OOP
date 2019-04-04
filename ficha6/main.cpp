@@ -6,7 +6,7 @@ using namespace std;
 class Menu{
     public:
         void principal(){
-            cout << "1 - Exercicio_1\n2 - Exercicio_2\n3 - Exercicio_3\n4 - Exercicio_4\n5 - Exercicio_5\n6 - Exercicio_6\n7 - Exercicio_7\n8 - Exercicio_8\n\n9 - Sair\n\nOpcao> ";
+            cout << "1 - Exercicio_1\n2 - Exercicio_2\n3 - Exercicio_3\n4 - Exercicio_4\n5 - Exercicio_5\n6 - Exercicio_6\n7 - Exercicio_7\n8 - Exercicio_8\n9 - Exercicio_9\n10 - Exercicio_10\n\nOpcao> ";
         }
 
         void menu_ex7(){
@@ -80,6 +80,23 @@ class Exercicio{
             }
         }
 
+        int * ex8(int x, int y){
+            if (x >=1000){
+                //...
+            }else if(x >= 500){
+                //...
+            }else{
+                //...
+            }
+        }
+
+        int * ex9(int x){
+            for(size_t i=1;i<=x;i++){
+                i++;
+                arr[i]=i;
+            }
+            return arr;
+        }
 };
 
 class Programa{
@@ -96,9 +113,10 @@ class Programa{
         int i=1;
 
         void run(){
+            menu.principal();
             cin >> input[0];
-
-            switch (input[0]){
+            while(true){
+                switch (input[0]){
                 case 1:
                     cout << "Isira um numero entre 1 e 15: "; cin >> input[0];
                     if (input[0]>15 || input[0]<=0) {
@@ -189,22 +207,31 @@ class Programa{
                     break;
 
                 case 8:
-                    //Ex8
+                    cout << "Insira a quantidade> "; cin >> input[0];
+                    cout << "Insira o preço do material> "; cin >> input[1];
+                    esp=exercicios.ex8(input[0],input[1]);
                     break;
-
+                
+                case 9:
+                    cout << "Digite um numero> "; cin >> input[0];
+                    esp=exercicios.ex9(input[0]);
+                    for(size_t i=1;i<=input[0];i++){
+                        i++;
+                        cout << *(esp+i) << endl;
+                    }
+                    system("PAUSE");
+                    break;
                 default:
                     break;
+                }
             }
         }
         
 };
 
 int main(int argc, char const *argv[]){
-
     Programa programa;
-
     programa.run();
-    
     return 0;
 }
 
